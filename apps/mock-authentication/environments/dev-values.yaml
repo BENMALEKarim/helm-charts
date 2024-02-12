@@ -1,3 +1,3 @@
 image:
-  tag: fe39ccda-main
+  tag: v1.4.1
 replicaCount: 1
