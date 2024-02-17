@@ -10,3 +10,5 @@ data:
   ENVIRONMENT: {{ .Values.environment }}
   VERSION: {{ .Values.image.tag }}
   TOKEN: {{ .Values.secret.token }}
+  RELEASE: release2
+
