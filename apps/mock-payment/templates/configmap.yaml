@@ -9,4 +9,6 @@ data:
   APP_NAME: {{ .Values.appName }}
   ENVIRONMENT: {{ .Values.environment }}
   VERSION: {{ .Values.image.tag }}
+  TOKEN: {{ .Values.secret.token }}
   RELEASE: release2
+
