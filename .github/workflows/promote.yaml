@@ -1,0 +1,42 @@
+name: Promote Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      lower_environment:
+        description: lower environment
+        required: true
+      higher_environment:
+        description: higher environment
+        required: true
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    env:
+      HIGH_ENV: ${{ inputs.higher_environment }}
+      LOW_ENV: ${{ inputs.lower_environment }}
+      APP_NAME: $(basename ${{ github.repository }})
+    steps:  
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.REPOSITORY_TOKEN }}
+
+    - name: Get Image Tag
+      uses: mikefarah/yq@master
+      with:
+        cmd: echo "IMAGE_TAG=$(yq eval '.image.tag' 'apps/mock-authentication/environments/${{ env.LOW_ENV }}-values.yaml')" >> $GITHUB_ENV
+
+    - name: Update Helm values file
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq eval '.image.tag = "${{ env.IMAGE_TAG }}"' -i "apps/mock-authentication/environments/${{ env.HIGH_ENV }}-values.yaml"
+
+    - name: Commit and push changes
+      run: |
+        git config user.email ${{ secrets.REPOSITORY_EMAIL }}
+        git config user.name ${{ secrets.REPOSITORY_USER }}
+        git add .
+        git commit -m "Promote new version to ${{ env.HIGH_ENV }} environment from ${{ env.LOW_ENV }}"
+        git push https://${{ secrets.REPOSITORY_TOKEN }}@github.com/BENMALEKarim/helm-charts.git
