@@ -11,3 +11,4 @@ data:
   VERSION: {{ .Values.image.tag }}
   MOCK: TESTINHO
   NEXT: 'YES SIR'
+  FEATURE: Release2
