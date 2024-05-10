@@ -10,3 +10,4 @@ data:
   ENVIRONMENT: {{ .Values.environment }}
   VERSION: {{ .Values.image.tag }}
   MOCK: TESTINHO
+  NEXT: 'YES SIR'
