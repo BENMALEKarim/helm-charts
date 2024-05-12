@@ -1,0 +1,4 @@
+environment: cstg
+
+secret:
+  token: "ZW1vaXIoemhremVyenVoaGZzYQo="
