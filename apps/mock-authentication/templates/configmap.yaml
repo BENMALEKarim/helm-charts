@@ -9,6 +9,3 @@ data:
   APP_NAME: {{ .Values.appName }}
   ENVIRONMENT: {{ .Values.environment }}
   VERSION: {{ .Values.image.tag }}
-  MOCK: TESTINHO
-  NEXT: 'YES SIR'
-  FEATURE: Release2
