@@ -1,0 +1,4 @@
+environment: pprod
+
+secret:
+  token: "ZW1vaXIoemhremVyenVoaGZzYQo="

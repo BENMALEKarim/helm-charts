@@ -1,0 +1,4 @@
+environment: ndev
+
+secret:
+  token: "ZW1vaXIoemhremVyenVoaGZzYQo="

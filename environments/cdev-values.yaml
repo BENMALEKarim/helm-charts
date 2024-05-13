@@ -1,0 +1,4 @@
+environment: cdev
+
+secret:
+  token: "ZW1vaXIoemhremVyenVoaGZzYQo="

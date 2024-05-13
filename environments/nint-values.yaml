@@ -1,4 +1,4 @@
-environment: dev
+environment: nint
 
 secret:
   token: "ZW1vaXIoemhremVyenVoaGZzYQo="

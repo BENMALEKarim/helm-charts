@@ -1,0 +1,4 @@
+environment: nstg
+
+secret:
+  token: "ZW1vaXIoemhremVyenVoaGZzYQo="
