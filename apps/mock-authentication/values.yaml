@@ -1,4 +1,4 @@
 appName: mock-authentication
 
 image:
-  repository: benmalekarim/mock-authentication
+  repository: c8n.io/benmalekarim/mock-authentication

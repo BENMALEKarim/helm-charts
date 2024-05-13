@@ -5,4 +5,4 @@
 appName: mock-frontend
 
 image:
-  repository: benmalekarim/mock-frontend
+  repository: c8n.io/benmalekarim/mock-frontend
