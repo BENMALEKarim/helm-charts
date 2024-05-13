@@ -45,7 +45,7 @@ jobs:
         git push https://${{ secrets.REPOSITORY_TOKEN }}@github.com/BENMALEKarim/helm-charts.git
 
   promote-argocd:
-    needs: docker-build-push
+    needs: promote-image-tag
     runs-on: ubuntu-latest
     env:
       HIGH_ENV: ${{ inputs.higher_environment }}
