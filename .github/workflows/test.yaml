@@ -1,0 +1,27 @@
+name: Split Input and Loop
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_with_commas:
+        description: 'Input with comma-separated items'
+        required: true
+
+jobs:
+  split_and_loop:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        split_item: ${{ steps.extract-input.outputs.split_list }}
+
+    steps:
+      - name: Extract input and split into list
+        id: extract-input
+        run: |
+          input_list="${{ github.event.inputs.input_with_commas }}"
+          IFS=',' read -r -a array <<< "$input_list"
+          echo "::set-output name=split_list::${array[@]}"
+        
+      - name: Display current split item
+        run: |
+          echo "Split Item: ${{ matrix.split_item }}"
