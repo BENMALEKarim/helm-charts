@@ -23,4 +23,5 @@ jobs:
           echo "::set-output name=split_list::${array[@]}"
         
       - name: Display current split item
-        run: echo "Split Item: ${{ matrix.split_item }}"
+        run: |
+          echo "Split Item: ${{ matrix.split_item }}"
