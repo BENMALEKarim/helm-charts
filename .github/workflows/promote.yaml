@@ -60,7 +60,7 @@ jobs:
       uses: mikefarah/yq@master
       with:
         cmd: |
-          yq eval '.spec.source.targetRevision = "master"' -i argocd/${{ env.APP_NAME }}-${{ env.HIGH_ENV }}.yaml
+          yq eval '.spec.source.targetRevision = "master"' -i argocd-apps/argocd/${{ env.APP_NAME }}-${{ env.HIGH_ENV }}.yaml
 
     - name: Commit and push changes
       run: |
