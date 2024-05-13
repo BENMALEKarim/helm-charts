@@ -5,4 +5,4 @@
 appName: mock-payment
 
 image:
-  repository: benmalekarim/mock-payment
+  repository: c8n.io/benmalekarim/mock-payment
