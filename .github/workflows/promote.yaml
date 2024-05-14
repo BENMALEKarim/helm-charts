@@ -35,6 +35,12 @@ jobs:
       uses: mikefarah/yq@master
       with:
         cmd: yq eval '.image.tag = "${{ env.IMAGE_TAG }}"' -i "apps/${{ env.APP_NAME }}/environments/${{ env.HIGH_ENV }}-values.yaml"
+      
+    - name: Prepare image tag for prod
+      uses: mikefarah/yq@master
+      if: ${{ env.HIGH_ENV == 'pprod' }}
+      with:
+        cmd: yq eval '.image.tag = "${{ env.IMAGE_TAG }}"' -i "apps/${{ env.APP_NAME }}/environments/prod-values.yaml"
 
     - name: Commit and push changes
       run: |
@@ -56,11 +62,26 @@ jobs:
       run: |
         git clone --branch main https://github.com/BENMALEKarim/argocd-apps.git
 
-    - name: Update Helm values file
+    - name: Update Argocd Target Revision for current release
       uses: mikefarah/yq@master
+      if: startsWith(env.HIGH_ENV, 'c')
       with:
         cmd: |
           yq eval '.spec.source.targetRevision = "master"' -i argocd-apps/argocd/${{ env.APP_NAME }}-${{ env.HIGH_ENV }}.yaml
+
+    - name: Update Argocd Target Revision for pprod
+      uses: mikefarah/yq@master
+      if: ${{ env.HIGH_ENV == 'pprod' }}
+      with:
+        cmd: |
+          yq eval '.spec.source.targetRevision = "master"' -i argocd-apps/argocd/${{ env.APP_NAME }}-${{ env.HIGH_ENV }}.yaml
+
+    - name: Update Argocd Target Revision for next release
+      uses: mikefarah/yq@master
+      if: startsWith(env.HIGH_ENV, 'n')
+      with:
+        cmd: |
+          yq eval '.spec.source.targetRevision = "develop"' -i argocd-apps/argocd/${{ env.APP_NAME }}-${{ env.HIGH_ENV }}.yaml
 
     - name: Commit and push changes
       run: |
@@ -68,5 +89,5 @@ jobs:
         git config user.email ${{ secrets.REPOSITORY_EMAIL }}
         git config user.name ${{ secrets.REPOSITORY_USER }}
         git add .
-        git commit -m "Update image.tag for mock-authentication application ${{ env.IMAGE_TAG }}"
+        git commit -m "Update target revision"
         git push https://${{ secrets.REPOSITORY_TOKEN }}@github.com/BENMALEKarim/argocd-apps.git
