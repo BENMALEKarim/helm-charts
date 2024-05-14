@@ -6,37 +6,15 @@ on:
     - '**'
 
 jobs:
-  get-image-tag:
-    runs-on: ubuntu-latest
-    env:
-      LOW_ENV: pprod
-    steps:
-    - name: Checkout my Helm repository
-      uses: actions/checkout@v4
-      with:
-        repository: BENMALEKarim/helm-charts
-        path: helm-charts
-
-    - name: Get Image Tag
-      uses: mikefarah/yq@master
-      id: get_image_tag
-      with:
-        cmd: echo "IMAGE_TAG=$(yq eval '.image.tag' 'helm-charts/apps/mock-authentication/environments/${{ env.LOW_ENV }}-values.yaml')" >> $GITHUB_OUTPUT
-
-    outputs:
-      IMAGE_TAG: ${{ steps.get_image_tag.outputs.IMAGE_TAG }}
-
   update-argocd-application:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_TAG: ${{needs.get-image-tag.outputs.IMAGE_TAG}}
 
     steps:
-    - name: Checkout my Helm repository
+    - name: Checkout my Argocd repository
       run: |
-        git clone https://github.com/BENMALEKarim/helm-charts.git
+        git clone https://github.com/BENMALEKarim/argocd-apps.git
     
-    - name: Update Helm values file
+    - name: Update Argocd application files
       uses: mikefarah/yq@master
       with:
         cmd: |
@@ -51,6 +29,6 @@ jobs:
         git config user.name ${{ secrets.REPOSITORY_USER }}
         git add .
         git commit -m "New Release ${{ github.ref_name }} delivered"
-        git push https://${{ secrets.REPOSITORY_TOKEN }}@github.com/BENMALEKarim/argocd-apps/.git
+        git push https://${{ secrets.REPOSITORY_TOKEN }}@github.com/BENMALEKarim/argocd-apps.git
 
     
